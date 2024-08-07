@@ -1,5 +1,3 @@
-// definite height for images
-
 let Menu = function () {
   let _config = {
     index: 0,
@@ -8,18 +6,42 @@ let Menu = function () {
   };
 
   function _displayImages() {
-    _config.items.forEach((item) =>
+    _config.items.forEach((item, i) =>
       item.addEventListener("click", () => {
-        const figures = item.querySelectorAll("figure");
+        if (i === _config.index) return;
 
-        _config.displayDiv.innerHTML = "";
-        figures.forEach((item) => {
-          const clonedImage = item.cloneNode(true);
-          _config.displayDiv.appendChild(clonedImage);
+        _removePreviousImages();
+
+        setTimeout(() => {
+          _showNewImages(item);
+          _adjustPictureHeight();
+        }, 400);
+
+        _config.items.forEach((i) => {
+          i.classList.contains("active") && i.classList.remove("active");
         });
-        _adjustPictureHeight();
+        item.classList.add("active");
+
+        _config.index = i;
       })
     );
+  }
+
+  function _removePreviousImages() {
+    Array.from(_config.displayDiv.children).forEach((figure) => {
+      figure.classList.remove("scale-enter");
+      figure.classList.add("scale-exit");
+    });
+  }
+
+  function _showNewImages(item) {
+    const figures = item.querySelectorAll("figure");
+    _config.displayDiv.innerHTML = "";
+    figures.forEach((item) => {
+      const clonedImage = item.cloneNode(true);
+      _config.displayDiv.appendChild(clonedImage);
+      clonedImage.classList.add("scale-enter");
+    });
   }
 
   function _adjustPictureHeight() {
@@ -31,7 +53,7 @@ let Menu = function () {
     console.log(ItemsHeight);
   }
 
-  function _adjustArrowTop() {
+  function _adjustArrowHeight() {
     _config.items.forEach((item, i) => {
       item.addEventListener("click", () => {
         document.documentElement.style.setProperty("--top", `${i * 13 + 2}rem`);
@@ -40,7 +62,7 @@ let Menu = function () {
   }
 
   _displayImages();
-  _adjustArrowTop();
+  _adjustArrowHeight();
 };
 
 window.Menu = Menu;
