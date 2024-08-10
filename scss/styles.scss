@@ -38,16 +38,18 @@ body {
         height: 100%;
         position: relative;
         border-right: 0.2rem solid #2b2b2b;
+        transition: 800ms ease-out;
         &::after {
           content: "";
           position: absolute;
           width: 0;
           height: 0;
-          top: 5rem;
+          top: var(--top);
           right: -1rem;
           border-top: 2rem solid transparent;
           border-right: 2rem solid black;
           transform: rotate(-45deg);
+          transition: 800ms ease-out;
         }
 
         > li {
