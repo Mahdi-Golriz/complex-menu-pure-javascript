@@ -7,7 +7,8 @@
 
 :root {
   --height: 33.3333%;
-  --top: 2rem;
+  --top: 4rem;
+  --inner-top: null;
 }
 
 html {
@@ -76,6 +77,7 @@ body > div.menu > div.menu-items > ul > li > a {
 body > div.menu > div.first-level__container {
   flex-basis: 75%;
   position: relative;
+  display: flex;
 }
 body > div.menu > div.first-level__container > div.items {
   width: 100%;
@@ -110,6 +112,100 @@ body > div.menu > div.first-level__container > div.items.active > figure > figca
   left: 0.5rem;
   color: aliceblue;
   font-size: 1.5rem;
+}
+body > div.menu > div.first-level__container > div.items.active > figure > a {
+  display: inline-block;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+}
+body > div.menu > div.first-level__container > div.second-level__container {
+  width: 100%;
+  height: 100%;
+  display: none;
+  gap: 3rem;
+}
+body > div.menu > div.first-level__container > div.second-level__container > div.submenu {
+  flex-basis: 25%;
+  padding-left: 1rem;
+}
+body > div.menu > div.first-level__container > div.second-level__container > div.submenu > ul {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  height: 100%;
+  position: relative;
+  border-right: 0.2rem solid #2b2b2b;
+  transition: 800ms ease-out;
+  justify-content: space-between;
+}
+body > div.menu > div.first-level__container > div.second-level__container > div.submenu > ul::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  top: var(--inner-top);
+  right: -0.8rem;
+  border-top: 1.5rem solid transparent;
+  border-right: 1.5rem solid black;
+  transform: rotate(-45deg);
+  transition: 800ms ease-out;
+}
+body > div.menu > div.first-level__container > div.second-level__container > div.submenu > ul > li {
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  flex-basis: 10%;
+  display: flex;
+  align-items: center;
+}
+body > div.menu > div.first-level__container > div.second-level__container > div.submenu > ul > li > a {
+  text-decoration: none;
+  color: #2b2b2b;
+  font-weight: bold;
+}
+body > div.menu > div.first-level__container > div.second-level__container > div.submenu-items {
+  flex-basis: 75%;
+  position: relative;
+}
+body > div.menu > div.first-level__container > div.second-level__container > div.submenu-items > ul {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  position: absolute;
+}
+body > div.menu > div.first-level__container > div.second-level__container > div.submenu-items > ul > li {
+  flex-basis: 50%;
+  height: var(--height);
+}
+body > div.menu > div.first-level__container > div.second-level__container > div.submenu-items > ul > li > a > figure {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  opacity: 0;
+  transform: scale(0.7);
+}
+body > div.menu > div.first-level__container > div.second-level__container > div.submenu-items > ul > li > a > figure > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  padding: 0.1rem;
+}
+body > div.menu > div.first-level__container > div.second-level__container > div.submenu-items > ul > li > a > figure > figcaption {
+  position: absolute;
+  bottom: 0.5rem;
+  left: 0.5rem;
+  color: aliceblue;
+  font-size: 1.5rem;
+}
+body > div.menu > div.first-level__container > div.second-level__container > div.submenu-items > ul.active {
+  display: flex;
+}
+body > div.menu > div.first-level__container > div.second-level__container.active {
+  display: flex;
 }
 
 /*# sourceMappingURL=styles.css.map */
