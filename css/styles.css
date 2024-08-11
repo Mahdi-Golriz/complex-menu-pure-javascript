@@ -74,6 +74,9 @@ body > div.menu > div.menu-items > ul > li > a {
   font-weight: bold;
   gap: 1.5rem;
 }
+body > div.menu > div.menu-items > ul > li > a:hover {
+  color: darkblue;
+}
 body > div.menu > div.first-level__container {
   flex-basis: 75%;
   position: relative;
@@ -90,6 +93,7 @@ body > div.menu > div.first-level__container > div.items.active {
   display: flex;
   opacity: 1;
   flex-wrap: wrap;
+  gap: 0.1rem;
 }
 body > div.menu > div.first-level__container > div.items.active > figure {
   flex-grow: 1;
@@ -98,13 +102,30 @@ body > div.menu > div.first-level__container > div.items.active > figure {
   position: relative;
   opacity: 0;
   transform: scale(0.7);
+  overflow: hidden;
+}
+body > div.menu > div.first-level__container > div.items.active > figure::after {
+  content: "";
+  height: 10%;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8));
+  transition: all ease 400ms;
+}
+body > div.menu > div.first-level__container > div.items.active > figure:hover > img {
+  transform: scale(1.2);
+}
+body > div.menu > div.first-level__container > div.items.active > figure:hover::after {
+  height: 100%;
 }
 body > div.menu > div.first-level__container > div.items.active > figure > img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  padding: 0.1rem;
+  transition: all 400ms;
 }
 body > div.menu > div.first-level__container > div.items.active > figure > figcaption {
   position: absolute;
@@ -171,7 +192,7 @@ body > div.menu > div.first-level__container > div.second-level__container > div
 body > div.menu > div.first-level__container > div.second-level__container > div.submenu-items > ul {
   width: 100%;
   height: 100%;
-  display: flex;
+  display: none;
   flex-wrap: wrap;
   list-style: none;
   position: absolute;
@@ -186,6 +207,7 @@ body > div.menu > div.first-level__container > div.second-level__container > div
   position: relative;
   opacity: 0;
   transform: scale(0.7);
+  will-change: transform;
 }
 body > div.menu > div.first-level__container > div.second-level__container > div.submenu-items > ul > li > a > figure > img {
   display: block;

@@ -14,12 +14,31 @@ let Menu = function () {
     _config.menuItems.forEach((item, i) =>
       item.addEventListener("click", () => {
         if (i === _config.activeIndex || _config.isAnimating) return;
+        if (_config.innerActiveIndex !== null) {
+          Array.from(
+            document
+              .querySelector("div.submenu-items")
+              .children[_config.innerActiveIndex].querySelectorAll("figure")
+          ).forEach((figure, i) => {
+            setTimeout(() => _removePreviousImages(figure), i * 60);
+          });
+
+          setTimeout(
+            () =>
+              document
+                .querySelector("div.second-level__container")
+                .classList.remove("active"),
+            1000
+          );
+        }
 
         _config.isAnimating = true;
 
         Array.from(_config.items[_config.activeIndex].children).forEach(
           (figure, i) => {
-            setTimeout(() => _removePreviousImages(figure), i * 60);
+            setTimeout(() => {
+              _removePreviousImages(figure);
+            }, i * 60);
           }
         );
 
@@ -70,8 +89,9 @@ let Menu = function () {
 
   function _changeActiveIndex(i) {
     _config.items[_config.activeIndex].classList.remove("active");
-
+    _config.menuItems[_config.activeIndex].children[0].style.color = "black";
     _config.activeIndex = i;
+    _config.menuItems[_config.activeIndex].children[0].style.color = "darkblue";
     _config.items[_config.activeIndex].classList.add("active");
     _adjustPictureHeight();
   }
@@ -100,7 +120,7 @@ let Menu = function () {
 
   function _addEventListeners() {
     window.addEventListener("resize", () => {
-      _adjustPictureHeight;
+      _adjustPictureHeight();
     });
     document.addEventListener("DOMContentLoaded", () => {
       Array.from(_config.items[_config.activeIndex].children).forEach(
@@ -207,13 +227,13 @@ let Menu = function () {
           _adjustInnerArrowLevel(item);
         }, _config.items.length * 60 + 1000);
 
-        Array.from(
-          subImages[_config.innerActiveIndex].querySelectorAll("figure")
-        ).forEach((figure, i) => {
-          setTimeout(() => {
-            _showNewImages(figure);
-          }, _config.items.length * 60 + 1000 + i * 60);
-        });
+        Array.from(subImages[i].querySelectorAll("figure")).forEach(
+          (figure, i) => {
+            setTimeout(() => {
+              _showNewImages(figure);
+            }, _config.items.length * 60 + 1000 + i * 60);
+          }
+        );
 
         setTimeout(
           () => (_config.isAnimating = false),
