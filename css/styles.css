@@ -103,6 +103,7 @@ body > div.menu > div.first-level__container > div.items.active > figure {
   opacity: 0;
   transform: scale(0.7);
   overflow: hidden;
+  cursor: pointer;
 }
 body > div.menu > div.first-level__container > div.items.active > figure::after {
   content: "";

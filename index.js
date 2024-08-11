@@ -1,13 +1,13 @@
 let Menu = function () {
   let _config = {
     activeIndex: 0,
+    innerActiveIndex: null,
     items: Array.from(
       document.querySelector(".first-level__container").children
     ),
+
     menuItems: Array.from(document.querySelector("ul.items").children),
     isAnimating: false,
-
-    innerActiveIndex: null,
   };
 
   function _displayImages() {

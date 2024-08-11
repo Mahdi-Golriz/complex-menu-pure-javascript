@@ -107,7 +107,7 @@ body {
           opacity: 0;
           transform: scale(0.7);
           overflow: hidden;
-
+          cursor: pointer;
           &::after {
             content: "";
             height: 10%;
