@@ -22,7 +22,7 @@ body {
   justify-content: center;
   align-items: center;
 }
-body > div.menu {
+body > div.container {
   width: 80vw;
   height: 80vh;
   display: flex;
@@ -30,10 +30,10 @@ body > div.menu {
   padding: 2rem;
   gap: 2rem;
 }
-body > div.menu > div.menu-items {
+body > div.container > div.gallery-menu__container {
   flex-basis: 25%;
 }
-body > div.menu > div.menu-items > ul {
+body > div.container > div.gallery-menu__container > ul {
   display: flex;
   flex-direction: column;
   list-style: none;
@@ -42,7 +42,7 @@ body > div.menu > div.menu-items > ul {
   border-right: 0.2rem solid #2b2b2b;
   transition: 800ms ease-out;
 }
-body > div.menu > div.menu-items > ul::after {
+body > div.container > div.gallery-menu__container > ul::after {
   content: "";
   position: absolute;
   width: 0;
@@ -54,7 +54,7 @@ body > div.menu > div.menu-items > ul::after {
   transform: rotate(-45deg);
   transition: 800ms ease-out;
 }
-body > div.menu > div.menu-items > ul > li {
+body > div.container > div.gallery-menu__container > ul > li {
   display: flex;
   font-size: 2rem;
   padding: 1rem;
@@ -62,11 +62,11 @@ body > div.menu > div.menu-items > ul > li {
   align-items: center;
   justify-content: start;
 }
-body > div.menu > div.menu-items > ul > li p {
+body > div.container > div.gallery-menu__container > ul > li p {
   font-size: 1rem;
   line-height: 1rem;
 }
-body > div.menu > div.menu-items > ul > li > a {
+body > div.container > div.gallery-menu__container > ul > li > a {
   display: flex;
   text-decoration: none;
   line-height: 3rem;
@@ -74,38 +74,43 @@ body > div.menu > div.menu-items > ul > li > a {
   font-weight: bold;
   gap: 1.5rem;
 }
-body > div.menu > div.menu-items > ul > li > a:hover {
+body > div.container > div.gallery-menu__container > ul > li > a:hover {
   color: darkblue;
 }
-body > div.menu > div.first-level__container {
+body > div.container > div.first-level__container {
   flex-basis: 75%;
   position: relative;
   display: flex;
 }
-body > div.menu > div.first-level__container > div.items {
+body > div.container > div.first-level__container > ul.galley-items {
   width: 100%;
   height: 100%;
   position: absolute;
   opacity: 0;
   display: none;
 }
-body > div.menu > div.first-level__container > div.items.active {
+body > div.container > div.first-level__container > ul.galley-items.active {
   display: flex;
   opacity: 1;
   flex-wrap: wrap;
   gap: 0.1rem;
+  list-style: none;
 }
-body > div.menu > div.first-level__container > div.items.active > figure {
+body > div.container > div.first-level__container > ul.galley-items.active > li {
   flex-grow: 1;
   flex-basis: 30%;
   height: var(--height);
-  position: relative;
   opacity: 0;
   transform: scale(0.7);
+}
+body > div.container > div.first-level__container > ul.galley-items.active > li > a > figure {
+  position: relative;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
   cursor: pointer;
 }
-body > div.menu > div.first-level__container > div.items.active > figure::after {
+body > div.container > div.first-level__container > ul.galley-items.active > li > a > figure::after {
   content: "";
   height: 10%;
   width: 100%;
@@ -115,44 +120,37 @@ body > div.menu > div.first-level__container > div.items.active > figure::after 
   background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8));
   transition: all ease 400ms;
 }
-body > div.menu > div.first-level__container > div.items.active > figure:hover > img {
+body > div.container > div.first-level__container > ul.galley-items.active > li > a > figure:hover > img {
   transform: scale(1.2);
 }
-body > div.menu > div.first-level__container > div.items.active > figure:hover::after {
+body > div.container > div.first-level__container > ul.galley-items.active > li > a > figure:hover::after {
   height: 100%;
 }
-body > div.menu > div.first-level__container > div.items.active > figure > img {
+body > div.container > div.first-level__container > ul.galley-items.active > li > a > figure > img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: all 400ms;
 }
-body > div.menu > div.first-level__container > div.items.active > figure > figcaption {
+body > div.container > div.first-level__container > ul.galley-items.active > li > a > figure > figcaption {
   position: absolute;
   bottom: 0.5rem;
   left: 0.5rem;
   color: aliceblue;
   font-size: 1.5rem;
 }
-body > div.menu > div.first-level__container > div.items.active > figure > a {
-  display: inline-block;
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  top: 0;
-}
-body > div.menu > div.first-level__container > div.second-level__container {
+body > div.container > div.first-level__container > div.second-level__container {
   width: 100%;
   height: 100%;
   display: none;
   gap: 3rem;
 }
-body > div.menu > div.first-level__container > div.second-level__container > div.submenu {
+body > div.container > div.first-level__container > div.second-level__container > div.submenu {
   flex-basis: 25%;
   padding-left: 1rem;
 }
-body > div.menu > div.first-level__container > div.second-level__container > div.submenu > ul {
+body > div.container > div.first-level__container > div.second-level__container > div.submenu > ul.submenu-items {
   display: flex;
   flex-direction: column;
   list-style: none;
@@ -162,7 +160,7 @@ body > div.menu > div.first-level__container > div.second-level__container > div
   transition: 800ms ease-out;
   justify-content: space-between;
 }
-body > div.menu > div.first-level__container > div.second-level__container > div.submenu > ul::after {
+body > div.container > div.first-level__container > div.second-level__container > div.submenu > ul.submenu-items::after {
   content: "";
   position: absolute;
   width: 0;
@@ -174,23 +172,23 @@ body > div.menu > div.first-level__container > div.second-level__container > div
   transform: rotate(-45deg);
   transition: 800ms ease-out;
 }
-body > div.menu > div.first-level__container > div.second-level__container > div.submenu > ul > li {
+body > div.container > div.first-level__container > div.second-level__container > div.submenu > ul.submenu-items > li {
   font-size: 1.5rem;
   padding: 0.5rem;
   flex-basis: 10%;
   display: flex;
   align-items: center;
 }
-body > div.menu > div.first-level__container > div.second-level__container > div.submenu > ul > li > a {
+body > div.container > div.first-level__container > div.second-level__container > div.submenu > ul.submenu-items > li > a {
   text-decoration: none;
   color: #2b2b2b;
   font-weight: bold;
 }
-body > div.menu > div.first-level__container > div.second-level__container > div.submenu-items {
+body > div.container > div.first-level__container > div.second-level__container > div.second-gallery__container {
   flex-basis: 75%;
   position: relative;
 }
-body > div.menu > div.first-level__container > div.second-level__container > div.submenu-items > ul {
+body > div.container > div.first-level__container > div.second-level__container > div.second-gallery__container > ul {
   width: 100%;
   height: 100%;
   display: none;
@@ -198,11 +196,11 @@ body > div.menu > div.first-level__container > div.second-level__container > div
   list-style: none;
   position: absolute;
 }
-body > div.menu > div.first-level__container > div.second-level__container > div.submenu-items > ul > li {
+body > div.container > div.first-level__container > div.second-level__container > div.second-gallery__container > ul > li {
   flex-basis: 50%;
   height: var(--height);
 }
-body > div.menu > div.first-level__container > div.second-level__container > div.submenu-items > ul > li > a > figure {
+body > div.container > div.first-level__container > div.second-level__container > div.second-gallery__container > ul > li > a > figure {
   width: 100%;
   height: 100%;
   position: relative;
@@ -210,24 +208,24 @@ body > div.menu > div.first-level__container > div.second-level__container > div
   transform: scale(0.7);
   will-change: transform;
 }
-body > div.menu > div.first-level__container > div.second-level__container > div.submenu-items > ul > li > a > figure > img {
+body > div.container > div.first-level__container > div.second-level__container > div.second-gallery__container > ul > li > a > figure > img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
   padding: 0.1rem;
 }
-body > div.menu > div.first-level__container > div.second-level__container > div.submenu-items > ul > li > a > figure > figcaption {
+body > div.container > div.first-level__container > div.second-level__container > div.second-gallery__container > ul > li > a > figure > figcaption {
   position: absolute;
   bottom: 0.5rem;
   left: 0.5rem;
   color: aliceblue;
   font-size: 1.5rem;
 }
-body > div.menu > div.first-level__container > div.second-level__container > div.submenu-items > ul.active {
+body > div.container > div.first-level__container > div.second-level__container > div.second-gallery__container > ul.active {
   display: flex;
 }
-body > div.menu > div.first-level__container > div.second-level__container.active {
+body > div.container > div.first-level__container > div.second-level__container.active {
   display: flex;
 }
 

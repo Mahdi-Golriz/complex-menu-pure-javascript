@@ -1,118 +1,124 @@
 let Menu = function () {
-  let _config = {
-    activeIndex: 0,
-    innerActiveIndex: null,
-    items: Array.from(
-      document.querySelector(".first-level__container").children
-    ),
+  // define active indexes for menu and submenu
+  let activeIndex = 0;
+  let submenuActiveIndex = null;
+  let isAnimating = false;
 
-    menuItems: Array.from(document.querySelector("ul.items").children),
-    isAnimating: false,
-  };
+  // define general selectors to access easier to inner elements
+  let galleryItems = Array.from(
+    document.querySelector("div.first-level__container").children
+  );
+  let menuItems = Array.from(document.querySelector("ul.menu-items").children);
 
-  function _displayImages() {
-    _config.menuItems.forEach((item, i) =>
-      item.addEventListener("click", () => {
-        if (i === _config.activeIndex || _config.isAnimating) return;
-        if (_config.innerActiveIndex !== null) {
-          Array.from(
-            document
-              .querySelector("div.submenu-items")
-              .children[_config.innerActiveIndex].querySelectorAll("figure")
-          ).forEach((figure, i) => {
-            setTimeout(() => _removePreviousImages(figure), i * 60);
-          });
+  let secondGalleryItems = Array.from(
+    document.querySelector("div.second-gallery__container").children
+  );
 
-          setTimeout(
-            () =>
-              document
-                .querySelector("div.second-level__container")
-                .classList.remove("active"),
-            1000
-          );
+  let submenuItems = Array.from(
+    document.querySelector("ul.submenu-items").children
+  );
+
+  // handle changing images for Menu
+  function _displayMenuImages() {
+    menuItems.forEach((item, i) =>
+      item.addEventListener("click", async () => {
+        // early return
+        if (i === activeIndex || isAnimating) return;
+        isAnimating = true;
+
+        // inactive submenu
+        if (submenuActiveIndex !== null) {
+          const figures =
+            secondGalleryItems[submenuActiveIndex].querySelectorAll("figure");
+          await _animateElements(Array.from(figures), _removePreviousImages);
+
+          document
+            .querySelector("div.second-level__container")
+            .classList.remove("active");
         }
 
-        _config.isAnimating = true;
+        const currentFigures = Array.from(galleryItems[activeIndex].children);
+        await _animateElements(currentFigures, _removePreviousImages);
 
-        Array.from(_config.items[_config.activeIndex].children).forEach(
-          (figure, i) => {
-            setTimeout(() => {
-              _removePreviousImages(figure);
-            }, i * 60);
-          }
+        await _delay(500);
+
+        _changeActiveIndex(i);
+        _adjustArrowLevel(item, "ul.menu-items", "--top", 20);
+        _adjustPictureHeight(
+          ".first-level__container",
+          "ul.galley-items.active"
         );
 
-        setTimeout(() => {
-          _changeActiveIndex(i);
-          _adjustArrowLevel(item);
-        }, _config.items.length * 60 + 1000);
+        const newFigures = Array.from(galleryItems[i].children);
+        await _animateElements(newFigures, _showNewImages);
 
-        Array.from(_config.items[i].children).forEach((figure, i) => {
-          setTimeout(() => {
-            _showNewImages(figure);
-          }, _config.items.length * 60 + 1000 + i * 60);
-        });
+        await _delay(500);
 
-        setTimeout(
-          () => (_config.isAnimating = false),
-          _config.items.length * 120 + 1300
-        );
+        isAnimating = false;
       })
     );
   }
 
-  function _removePreviousImages(element, opacity = 1, scale = 1) {
-    if (opacity > 0 || scale > 0.7) {
-      opacity -= 1 / 60;
-      scale -= 0.3 / 60;
+  function _delay(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
 
-      element.style.opacity = opacity;
-      element.style.transform = `scale(${scale})`;
-
-      requestAnimationFrame(() =>
-        _removePreviousImages(element, opacity, scale)
-      );
+  async function _animateElements(elements, animationFunc, delay = 60) {
+    for (let i = 0; i < elements.length; i++) {
+      animationFunc(elements[i]);
+      await _delay(delay);
     }
+  }
+
+  function _removePreviousImages(element, opacity = 1, scale = 1) {
+    function animate() {
+      if (opacity > 0 || scale > 0.7) {
+        opacity -= 1 / 60;
+        scale -= 0.3 / 60;
+
+        element.style.opacity = opacity;
+        element.style.transform = `scale(${scale})`;
+
+        requestAnimationFrame(animate);
+      }
+    }
+    animate();
   }
 
   function _showNewImages(element, opacity = 0, scale = 0.7) {
-    if (opacity < 1 || scale < 1) {
-      opacity += 1 / 60;
-      scale += 0.3 / 60;
+    function animate() {
+      if (opacity < 1 || scale < 1) {
+        opacity += 1 / 60;
+        scale += 0.3 / 60;
 
-      element.style.opacity = opacity;
-      element.style.transform = `scale(${scale})`;
+        element.style.opacity = opacity;
+        element.style.transform = `scale(${scale})`;
 
-      requestAnimationFrame(() => _showNewImages(element, opacity, scale));
+        requestAnimationFrame(animate);
+      }
     }
+    animate();
   }
 
   function _changeActiveIndex(i) {
-    _config.items[_config.activeIndex].classList.remove("active");
-    _config.menuItems[_config.activeIndex].children[0].style.color = "black";
-    _config.activeIndex = i;
-    _config.menuItems[_config.activeIndex].children[0].style.color = "darkblue";
-    _config.items[_config.activeIndex].classList.add("active");
-    _adjustPictureHeight();
+    galleryItems[activeIndex].classList.remove("active");
+    menuItems[activeIndex].children[0].style.color = "black";
+    activeIndex = i;
+    menuItems[activeIndex].children[0].style.color = "darkblue";
+    galleryItems[activeIndex].classList.add("active");
   }
 
-  function _changeInnerActiveIndex(i) {
-    document
-      .querySelectorAll("div.submenu-items ul")
-      [_config.innerActiveIndex].classList.remove("active");
-
-    _config.innerActiveIndex = i;
-
-    document
-      .querySelectorAll("div.submenu-items ul")
-      [_config.innerActiveIndex].classList.add("active");
+  function _changeSubmenuActiveIndex(i) {
+    secondGalleryItems[submenuActiveIndex].classList.remove("active");
+    submenuActiveIndex = i;
+    secondGalleryItems[submenuActiveIndex].classList.add("active");
   }
 
-  function _adjustPictureHeight() {
-    var firstContainerHeight =
-      document.querySelector("div.items.active").offsetHeight;
-    var numImages = document.querySelector("div.items.active").children.length;
-
+  function _adjustPictureHeight(container, element) {
+    var firstContainerHeight = document.querySelector(
+      `${container}`
+    ).offsetHeight;
+    var numImages = document.querySelector(`${element}`).children.length;
     var ItemsHeight =
       firstContainerHeight / (Math.floor((numImages - 1) / 3) + 1);
     document.documentElement.style.setProperty("--height", `${ItemsHeight}px`);
@@ -120,131 +126,118 @@ let Menu = function () {
 
   function _addEventListeners() {
     window.addEventListener("resize", () => {
-      _adjustPictureHeight();
-    });
-    document.addEventListener("DOMContentLoaded", () => {
-      Array.from(_config.items[_config.activeIndex].children).forEach(
-        (figure, i) => {
-          setTimeout(() => _showNewImages(figure), i * 60);
-        }
+      _adjustPictureHeight(
+        ".first-level__container",
+        !submenuActiveIndex ? "ul.galley-items.active" : "ul.submenu-items"
       );
 
-      const firstItem = _config.menuItems[0];
-      const firstArrowLevel =
-        firstItem.getBoundingClientRect().top +
-        firstItem.offsetHeight / 2 -
-        document.querySelector("ul.items").getBoundingClientRect().top -
-        14;
-      document.documentElement.style.setProperty(
-        "--top",
-        `${firstArrowLevel}px`
-      );
+      if (!submenuActiveIndex) {
+        _adjustArrowLevel(menuItems[activeIndex], "ul.menu-items", "--top", 20);
+      } else {
+        _adjustArrowLevel(
+          submenuItems[submenuActiveIndex],
+          "ul.submenu-items",
+          "--inner-top",
+          15
+        );
+      }
+    });
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      const firstItemImages = Array.from(galleryItems[activeIndex].children);
+      await _animateElements(firstItemImages, _showNewImages);
+
+      _adjustArrowLevel(menuItems[activeIndex], "ul.menu-items", "--top", 20);
     });
   }
 
-  function _adjustArrowLevel(item) {
+  function _adjustArrowLevel(item, container, cssVariable, arrowLength) {
     const itemTop = item.getBoundingClientRect().top;
     const itemHeight = item.offsetHeight;
     const listTop = document
-      .querySelector("ul.items")
+      .querySelector(`${container}`)
       .getBoundingClientRect().top;
 
-    const arrowTop = itemHeight / 2 + itemTop - listTop - 14;
-    document.documentElement.style.setProperty("--top", `${arrowTop}px`);
-  }
-
-  function _adjustInnerArrowLevel(item) {
-    const itemTop = item.getBoundingClientRect().top;
-    const itemHeight = item.offsetHeight;
-    const listTop = document
-      .querySelector("ul.subitems")
-      .getBoundingClientRect().top;
-
-    const arrowTop = itemHeight / 2 + itemTop - listTop - 7;
-    document.documentElement.style.setProperty("--inner-top", `${arrowTop}px`);
+    const arrowTop =
+      itemHeight / 2 +
+      itemTop -
+      listTop -
+      Math.sqrt(2 * Math.pow(arrowLength, 2)) / 2;
+    document.documentElement.style.setProperty(
+      `${cssVariable}`,
+      `${arrowTop}px`
+    );
   }
 
   function _displaySubmenu() {
-    const images = Array.from(_config.items[0].children);
+    const images = Array.from(galleryItems[0].children);
     const secondContainer = document.querySelector(
       "div.second-level__container"
     );
-    const imagesContainer = Array.from(
-      document.querySelector("div.submenu-items").children
-    );
 
     images.forEach((figure, index) => {
-      figure.addEventListener("click", () => {
-        images.forEach((image, i) => {
-          setTimeout(() => _removePreviousImages(image), i * 60);
-        });
+      figure.addEventListener("click", async () => {
+        await _animateElements(images, _removePreviousImages);
 
-        setTimeout(() => {
-          _config.items[_config.activeIndex].classList.remove("active");
+        await _delay(500);
 
-          secondContainer.classList.add("active");
+        galleryItems[activeIndex].classList.remove("active");
+        secondContainer.classList.add("active");
+        secondGalleryItems[index].classList.add("active");
+        submenuActiveIndex = index;
 
-          imagesContainer[index].classList.add("active");
-          _config.innerActiveIndex = index;
+        galleryItems[activeIndex].classList.remove("active");
 
-          const item = Array.from(
-            document.querySelector("ul.subitems").children
-          )[index];
+        secondContainer.classList.add("active");
 
-          _adjustInnerArrowLevel(item);
-        }, _config.items.length * 60 + 1000);
+        secondGalleryItems[index].classList.add("active");
+        submenuActiveIndex = index;
 
-        document
-          .querySelector("div.submenu-items")
-          .children[index].querySelectorAll("figure")
-          .forEach((figure, i) => {
-            setTimeout(() => {
-              _showNewImages(figure);
-            }, 5 * 60 + 1000 + i * 60);
-          });
+        const item = Array.from(
+          document.querySelector("ul.submenu-items").children
+        )[index];
+
+        _adjustArrowLevel(item, "ul.submenu-items", "--inner-top", 15);
+
+        let firstImages = secondGalleryItems[index].querySelectorAll("figure");
+        _animateElements(firstImages, _showNewImages);
       });
     });
   }
 
   function _changeSubmenuItems() {
-    const subItems = Array.from(document.querySelector("ul.subitems").children);
-    const subImages = document.querySelector("div.submenu-items").children;
+    submenuItems.forEach((item, i) =>
+      item.addEventListener("click", async () => {
+        if (i === submenuActiveIndex || isAnimating) return;
 
-    subItems.forEach((item, i) =>
-      item.addEventListener("click", () => {
-        if (i === _config.innerActiveIndex || _config.isAnimating) return;
+        isAnimating = true;
 
-        _config.isAnimating = true;
-
-        Array.from(
-          subImages[_config.innerActiveIndex].querySelectorAll("figure")
-        ).forEach((figure, i) => {
-          setTimeout(() => _removePreviousImages(figure), i * 60);
-        });
-
-        setTimeout(() => {
-          _changeInnerActiveIndex(i);
-          _adjustInnerArrowLevel(item);
-        }, _config.items.length * 60 + 1000);
-
-        Array.from(subImages[i].querySelectorAll("figure")).forEach(
-          (figure, i) => {
-            setTimeout(() => {
-              _showNewImages(figure);
-            }, _config.items.length * 60 + 1000 + i * 60);
-          }
+        const currentFigures = Array.from(
+          secondGalleryItems[submenuActiveIndex].querySelectorAll("figure")
         );
 
-        setTimeout(
-          () => (_config.isAnimating = false),
-          _config.items.length * 120 + 1300
+        await _animateElements(currentFigures, _removePreviousImages);
+
+        await _delay(500);
+        _changeSubmenuActiveIndex(i);
+        _adjustArrowLevel(item, "ul.submenu-items", "--inner-top", 15);
+        _adjustPictureHeight(".first-level__container", "ul.submenu-items");
+
+        const newFigures = Array.from(
+          secondGalleryItems[i].querySelectorAll("figure")
         );
+
+        await _animateElements(newFigures, _showNewImages);
+
+        await _delay(500);
+
+        isAnimating = false;
       })
     );
   }
 
   _addEventListeners();
-  _displayImages();
+  _displayMenuImages();
   _displaySubmenu();
   _changeSubmenuItems();
 };
