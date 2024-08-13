@@ -1,3 +1,5 @@
+import loadLazyImages from "./lazyLoading.js";
+
 let Menu = function () {
   // define active indexes for menu and submenu
   let activeIndex = 0;
@@ -43,6 +45,9 @@ let Menu = function () {
         await _delay(500);
 
         _changeActiveIndex(i);
+
+        loadLazyImages(galleryItems[i]);
+
         _adjustArrowLevel(item, "ul.menu-items", "--top", 20);
         _adjustPictureHeight(
           ".first-level__container",
@@ -59,6 +64,7 @@ let Menu = function () {
     );
   }
 
+  // create a delay
   function _delay(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
@@ -193,6 +199,8 @@ let Menu = function () {
         secondGalleryItems[index].classList.add("active");
         submenuActiveIndex = index;
 
+        loadLazyImages(secondGalleryItems[index]);
+
         const item = Array.from(
           document.querySelector("ul.submenu-items").children
         )[index];
@@ -220,6 +228,9 @@ let Menu = function () {
 
         await _delay(500);
         _changeSubmenuActiveIndex(i);
+
+        loadLazyImages(secondGalleryItems[i]);
+
         _adjustArrowLevel(item, "ul.submenu-items", "--inner-top", 15);
         _adjustPictureHeight(".first-level__container", "ul.submenu-items");
 

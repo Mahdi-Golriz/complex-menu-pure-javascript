@@ -228,5 +228,25 @@ body > div.container > div.first-level__container > div.second-level__container 
 body > div.container > div.first-level__container > div.second-level__container.active {
   display: flex;
 }
+body > div.container .loader {
+  border: 1.6rem solid #f3f3f3;
+  border-top: 1.6rem solid darkblue;
+  border-radius: 50%;
+  width: 12rem;
+  height: 12rem;
+  animation: spin 2s linear infinite;
+  position: absolute;
+  display: none;
+  top: calc(50% - 6rem);
+  left: calc(50% + 10rem);
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 
 /*# sourceMappingURL=styles.css.map */
