@@ -10,7 +10,7 @@
   <p align="center">
     An awesome elementary JavaScript task!
   </p>
-  <img alt="demo" src='./Images/gif.mp4' />
+  <img alt="demo" src='./Images/gif.gif' />
 </div>
 
 <!-- TABLE OF CONTENTS -->
