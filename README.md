@@ -6,7 +6,7 @@
 
 <br />
 <div align="center">
-  <h3 align="center">Complex-Intgeractive-Gallery</h3>
+  <h3 align="center">Complex-Interactive-Gallery</h3>
   <p align="center">
     An awesome elementary JavaScript task!
   </p>
@@ -35,15 +35,16 @@
 
 ## About The Project
 
-This project is a hands-on task aimed at deepening my understanding of JavaScript. The objective is to build an interactive pictural menu with the following features:
+This project is a hands-on task aimed at deepening my understanding of JavaScript. The objective is to build an interactive pictorial menu with the following features:
 
-- lazy loading using 'load' event
-- Animated appearing and disappearing of pictures with css properties manipulating (opacity and scale)
-- Create delay between appearing and disappearing of pictures using synthetic delay (setTimeout) and promise
-- Adjust the arrow indicator responsively
-- Create submenu for first item
+- Lazy loading of images using the load event
+- Animated appearance and disappearance of images through CSS property manipulation (opacity and scale)
+- Creating a delay between the appearance and disappearance of images using synthetic delays (via setTimeout) and promises
+- Responsive arrow indicators that adjust dynamically
+- A submenu for the first menu item
+- A loading indicator displayed while images are being loaded for the first time
 
-Through this project, I gained practical experience in working with DOM elements, manipulating - them, handling events, and interacting with web APIs. Initially, I designed an algorithm to implement the required features, then used the Factory Design Pattern for the implementation. For styling, I leveraged SCSS and its various capabilities.
+Through this project, I gained practical experience in working with DOM elements, manipulating them, handling events, and interacting with web APIs. Initially, I designed an algorithm to implement the required features, then used the Factory Design Pattern for the implementation. For styling, I leveraged SCSS and its various capabilities.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
